@@ -45,6 +45,34 @@ public class Club {
 	public void setPlantilla(ArrayList<Jugador> plantilla) {
 		this.plantilla = plantilla;
 	}
+	
+	public void anyadeDirector(Director director) {
+		this.director = director;
+	}
+	
+	public void anyadeEntrenador(Entrenador entrenador) {
+		this.entrenador = entrenador;
+	}
+
+	public void anyadeJugador(Jugador jugador) {
+		plantilla.add(jugador);
+	}
+	
+	public void ficharJugador(Jugador jugador) {
+		plantilla.add(jugador);
+	}
+	
+	public void venderJugador(int dorsal) {
+		plantilla.remove(plantilla.indexOf(new Jugador(dorsal)));
+	}
+	
+	public String alineacion(int[] dorsales) {
+		String alineacion = "";
+		for(int i=0;i<dorsales.length;i++) {
+			alineacion += "\n" + plantilla.get(plantilla.indexOf(new Jugador(dorsales[i+1]))).alinear();
+		}
+		return alineacion;
+	}
 
 	@Override
 	public String toString() {

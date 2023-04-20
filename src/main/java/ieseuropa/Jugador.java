@@ -20,6 +20,17 @@ public class Jugador extends Miembro {
 		this.jugando = false;
 		this.puedeJugar = true;
 	}
+	
+	public Jugador(int dorsal) {
+		super();
+		this.dorsal = dorsal;
+		this.posicion = Posicion.Centrocampista;
+		this.goles = 0;
+		this.tarjetas = 0;
+		this.numPartidos = 0;
+		this.jugando = false;
+		this.puedeJugar = true;
+	}
 
 	public int getDorsal() {
 		return dorsal;
@@ -75,6 +86,95 @@ public class Jugador extends Miembro {
 
 	public void setPuedeJugar(boolean puedeJugar) {
 		this.puedeJugar = puedeJugar;
+	}
+	
+	public void sacarTarjeta() {
+		if(jugando) {
+			tarjetas += 1;
+			if(revisarTarjetas()) {
+				puedeJugar = false;
+			}
+		}
+	}
+	
+	private boolean revisarTarjetas() {
+		if(tarjetas % 5 == 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public void marcarGol() {
+		if(jugando) {
+			goles += 1;
+		}
+	}
+	
+	public float establecerSueldo() {
+		switch(posicion) {
+		default:
+			return 0;
+		case Portero,Defensa:
+			return 50000;
+		case Centrocampista:
+			return 75000;
+		case Delantero:
+			return 100000;
+		}
+	}
+	
+	private float aumentoXGol() {
+		switch(posicion) {
+		default:
+			return 0;
+		case Portero,Defensa:
+			return 5000;
+		case Centrocampista:
+			return 2500;
+		case Delantero:
+			return 1000;
+		}
+	}
+	
+	private float reduccionXTarjeta() {
+		switch(posicion) {
+		default:
+			return 0;
+		case Portero,Defensa:
+			return 50;
+		case Centrocampista:
+			return 200;
+		case Delantero:
+			return 1000;
+		}
+	}
+	
+	public String calcularSueldo() {
+		setSueldo(establecerSueldo());
+		return "El sueldo de " + getNombre() + " es " + (getSueldo() + (goles * aumentoXGol()) - (tarjetas * reduccionXTarjeta())) + "€";
+	}
+	
+	private void saleAJugar() {
+		jugando = true;
+	}
+	
+	public String alinear() {
+		if(puedeJugar) {
+			saleAJugar();
+			return getNombre() + " con dorsal " + dorsal + " sale al campo";
+		}else {
+			return getNombre() + " con dorsal " + dorsal + " no puede jugar";
+		}
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (dorsal == ((Jugador) o).dorsal) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

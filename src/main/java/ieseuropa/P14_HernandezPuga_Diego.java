@@ -2,10 +2,8 @@ package main.java.ieseuropa;
 
 public class P14_HernandezPuga_Diego {
 	
-	private static Club club;
-	
-	public static void inicio() {
-		club = new Club("Real Madrid");
+	public static Club inicio() {
+		Club club = new Club("Real Madrid");
 		
 		//añadir director deportivo
 		club.anyadeDirector(new Director("Tito Floren",23));
@@ -14,7 +12,6 @@ public class P14_HernandezPuga_Diego {
 		club.anyadeEntrenador(new Entrenador("Carlo Ancelotti",2));
 		
 		//añadir jugadores
-		
 		club.anyadeJugador(new Jugador("Courtois",1,Posicion.Portero));
 		club.anyadeJugador(new Jugador("Carvajal",2,Posicion.Defensa));
 		club.anyadeJugador(new Jugador("Militao",3,Posicion.Defensa));
@@ -38,12 +35,15 @@ public class P14_HernandezPuga_Diego {
 		club.anyadeJugador(new Jugador("Rudiger",22,Posicion.Defensa));
 		club.anyadeJugador(new Jugador("Mendy",23,Posicion.Defensa));
 		club.anyadeJugador(new Jugador("Mariano",24,Posicion.Delantero));
-
+		
+		return club;
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		inicio();
+		Club club = inicio();
+		
+		System.out.println("\nAdiós y Hala Madrid!");
 	}
 
 }

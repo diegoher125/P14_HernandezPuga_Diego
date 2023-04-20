@@ -1,25 +1,18 @@
 package main.java.ieseuropa;
 
-public class Entrenador extends Miembro {
-	
-	private int numAnos;
+public class Entrenador extends NoJugador {
 	
 	public Entrenador(String nombre, int numAnos) {
-		super(nombre);
-		this.numAnos = numAnos;
+		super(nombre,numAnos);
 	}
-
-	public int getNumAnos() {
-		return numAnos;
+	
+	private float bonus() {
+		return 1 + (((getNumAnos() - 1) * 10) / 100);
 	}
-
-	public void setNumAnos(int numAnos) {
-		this.numAnos = numAnos;
-	}
-
-	@Override
-	public String toString() {
-		return "Entrenador [nombre=" + getNombre() + ", sueldo=" + getSueldo() + ", numAnos=" + numAnos + "]";
+	
+	public String calcularSueldo() {
+		setSueldo(100000);
+		return "El sueldo de " + getNombre() + " es " + (getSueldo() * bonus()) + "€";
 	}
 
 }

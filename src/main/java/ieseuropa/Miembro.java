@@ -9,6 +9,11 @@ public abstract class Miembro {
 		this.nombre = nombre;
 		this.sueldo = 0;
 	}
+	
+	public Miembro() {
+		this.nombre = "";
+		this.sueldo = 0;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -24,6 +29,10 @@ public abstract class Miembro {
 
 	public void setSueldo(float sueldo) {
 		this.sueldo = sueldo;
+	}
+	
+	public String calcularSueldo() {
+		return "";
 	}
 
 	@Override
