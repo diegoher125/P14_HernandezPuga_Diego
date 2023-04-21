@@ -1,9 +1,9 @@
 package main.java.ieseuropa;
 
 public class NoJugador extends Miembro {
-	
-private int numAnos;
-	
+
+	private int numAnos;
+
 	public NoJugador(String nombre, int numAnos) {
 		super(nombre);
 		this.numAnos = numAnos;
@@ -16,7 +16,7 @@ private int numAnos;
 	public void setNumAnos(int numAnos) {
 		this.numAnos = numAnos;
 	}
-	
+
 	public String calcularSueldo() {
 		return "";
 	}

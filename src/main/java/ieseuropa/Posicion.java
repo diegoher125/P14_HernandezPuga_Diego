@@ -1,10 +1,10 @@
 package main.java.ieseuropa;
 
 public enum Posicion {
-	
-	Portero,
-	Defensa,
-	Centrocampista,
+
+	Portero, 
+	Defensa, 
+	Centrocampista, 
 	Delantero
 
 }

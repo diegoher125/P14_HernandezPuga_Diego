@@ -1,15 +1,15 @@
 package main.java.ieseuropa;
 
 public abstract class Miembro {
-	
+
 	private String nombre;
 	private float sueldo;
-	
+
 	public Miembro(String nombre) {
 		this.nombre = nombre;
 		this.sueldo = 0;
 	}
-	
+
 	public Miembro() {
 		this.nombre = "";
 		this.sueldo = 0;
@@ -30,7 +30,7 @@ public abstract class Miembro {
 	public void setSueldo(float sueldo) {
 		this.sueldo = sueldo;
 	}
-	
+
 	public String calcularSueldo() {
 		return "";
 	}

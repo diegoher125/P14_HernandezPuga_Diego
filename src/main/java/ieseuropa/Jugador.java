@@ -1,7 +1,7 @@
 package main.java.ieseuropa;
 
 public class Jugador extends Miembro {
-	
+
 	private int dorsal;
 	private Posicion posicion;
 	private int goles;
@@ -9,7 +9,7 @@ public class Jugador extends Miembro {
 	private int numPartidos;
 	private boolean jugando;
 	private boolean puedeJugar;
-	
+
 	public Jugador(String nombre, int dorsal, Posicion posicion) {
 		super(nombre);
 		this.dorsal = dorsal;
@@ -20,7 +20,7 @@ public class Jugador extends Miembro {
 		this.jugando = false;
 		this.puedeJugar = true;
 	}
-	
+
 	public Jugador(int dorsal) {
 		super();
 		this.dorsal = dorsal;
@@ -87,35 +87,35 @@ public class Jugador extends Miembro {
 	public void setPuedeJugar(boolean puedeJugar) {
 		this.puedeJugar = puedeJugar;
 	}
-	
+
 	public void sacarTarjeta() {
-		if(jugando) {
+		if (jugando) {
 			tarjetas += 1;
-			if(revisarTarjetas()) {
+			if (revisarTarjetas()) {
 				puedeJugar = false;
 			}
 		}
 	}
-	
+
 	private boolean revisarTarjetas() {
-		if(tarjetas % 5 == 0) {
+		if (tarjetas % 5 == 0) {
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
-	
+
 	public void marcarGol() {
-		if(jugando) {
+		if (jugando) {
 			goles += 1;
 		}
 	}
-	
+
 	public float establecerSueldo() {
-		switch(posicion) {
+		switch (posicion) {
 		default:
 			return 0;
-		case Portero,Defensa:
+		case Portero, Defensa:
 			return 50000;
 		case Centrocampista:
 			return 75000;
@@ -123,12 +123,12 @@ public class Jugador extends Miembro {
 			return 100000;
 		}
 	}
-	
+
 	private float aumentoXGol() {
-		switch(posicion) {
+		switch (posicion) {
 		default:
 			return 0;
-		case Portero,Defensa:
+		case Portero, Defensa:
 			return 5000;
 		case Centrocampista:
 			return 2500;
@@ -136,12 +136,12 @@ public class Jugador extends Miembro {
 			return 1000;
 		}
 	}
-	
+
 	private float reduccionXTarjeta() {
-		switch(posicion) {
+		switch (posicion) {
 		default:
 			return 0;
-		case Portero,Defensa:
+		case Portero, Defensa:
 			return 50;
 		case Centrocampista:
 			return 200;
@@ -149,25 +149,26 @@ public class Jugador extends Miembro {
 			return 1000;
 		}
 	}
-	
+
 	public String calcularSueldo() {
 		setSueldo(establecerSueldo());
-		return "El sueldo de " + getNombre() + " es " + (getSueldo() + (goles * aumentoXGol()) - (tarjetas * reduccionXTarjeta())) + "€";
+		return "\nEl sueldo de " + getNombre() + " con dorsal " + dorsal + " es "
+				+ (getSueldo() + (goles * aumentoXGol()) - (tarjetas * reduccionXTarjeta())) + "€";
 	}
-	
+
 	private void saleAJugar() {
 		jugando = true;
 	}
-	
-	public String alinear() {
-		if(puedeJugar) {
+
+	public boolean alinear() {
+		if (puedeJugar) {
 			saleAJugar();
-			return getNombre() + " con dorsal " + dorsal + " sale al campo";
-		}else {
-			return getNombre() + " con dorsal " + dorsal + " no puede jugar";
+			return true;
+		} else {
+			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (dorsal == ((Jugador) o).dorsal) {
@@ -179,8 +180,9 @@ public class Jugador extends Miembro {
 
 	@Override
 	public String toString() {
-		return "Jugador [nombre=" + getNombre() + ", sueldo=" + getSueldo() + ", dorsal="  + dorsal + ", posicion=" + posicion + ", goles=" + goles + ", tarjetas=" + tarjetas
-				+ ", numPartidos=" + numPartidos + ", jugando=" + jugando + ", puedeJugar=" + puedeJugar + "]";
+		return "Jugador [nombre=" + getNombre() + ", sueldo=" + getSueldo() + ", dorsal=" + dorsal + ", posicion="
+				+ posicion + ", goles=" + goles + ", tarjetas=" + tarjetas + ", numPartidos=" + numPartidos
+				+ ", jugando=" + jugando + ", puedeJugar=" + puedeJugar + "]";
 	}
 
 }
