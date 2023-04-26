@@ -5,6 +5,7 @@ public enum Posicion {
 	Portero, 
 	Defensa, 
 	Centrocampista, 
-	Delantero
+	Delantero,
+	Ninguna
 
 }

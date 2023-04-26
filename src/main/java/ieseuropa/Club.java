@@ -1,6 +1,7 @@
 package main.java.ieseuropa;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Club {
 
@@ -65,14 +66,40 @@ public class Club {
 	public void venderJugador(int dorsal) {
 		plantilla.remove(plantilla.indexOf(new Jugador(dorsal)));
 	}
+	
+	public boolean existeJugador(int dorsal) {
+		if(plantilla.contains(plantilla.indexOf(new Jugador(dorsal)))) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public String ordenadoTarjetas() {
+		Collections.sort(plantilla);
+		String jugadores = "";
+		for(int i=0;i<5;i++) {
+			jugadores += "\n" + plantilla.get(i).getNombre() + " con " + plantilla.get(i).getTarjetas() + " tarjetas";
+		}
+		return jugadores;
+	}
+	
+	public String ordenadoGoles() {
+		Collections.sort(plantilla, new OrderByTarjetas());
+		String jugadores = "";
+		for(int i=0;i<5;i++) {
+			jugadores += "\n" + plantilla.get(i).getNombre() + " con " + plantilla.get(i).getTarjetas() + " goles";
+		}
+		return jugadores;
+	}
 
 	public boolean alineacion(ArrayList<Integer> dorsales) {
 		if (!comprobarPortero(dorsales)) {
 			return false;
 		} else {
 			for (int i = 0; i < dorsales.size(); i++) {
-				if (!plantilla.get(plantilla.indexOf(new Jugador(dorsales.get(i + 1)))).alinear()
-						|| !plantilla.contains(new Jugador(dorsales.get(i + 1)))) {
+				if (!plantilla.contains(new Jugador(dorsales.get(i + 1)))
+						|| !plantilla.get(plantilla.indexOf(new Jugador(dorsales.get(i + 1)))).alinear()) {
 					return false;
 				}
 			}
@@ -90,7 +117,7 @@ public class Club {
 				variosPorteros = true;
 			}
 		}
-		if (variosPorteros || !portero) {
+		if (!portero || variosPorteros) {
 			return false;
 		} else {
 			return true;

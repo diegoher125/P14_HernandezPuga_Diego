@@ -1,6 +1,6 @@
 package main.java.ieseuropa;
 
-public class Jugador extends Miembro {
+public class Jugador extends Miembro implements Comparable<Jugador> {
 
 	private int dorsal;
 	private Posicion posicion;
@@ -176,6 +176,11 @@ public class Jugador extends Miembro {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public int compareTo(Jugador jugador) {
+		return (goles < jugador.getGoles() ? 1 : goles == jugador.getGoles() ? 0 : -1);
 	}
 
 	@Override

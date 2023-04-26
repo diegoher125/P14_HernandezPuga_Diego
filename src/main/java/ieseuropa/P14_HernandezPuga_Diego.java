@@ -72,9 +72,8 @@ public class P14_HernandezPuga_Diego {
 	private static void inicioMenu(Club club) {
 		int opcion = 0;
 		while (opcion != 5) {
-			System.out.println("Sobre que desea realizar una accion:" + "\n1. Director deportivo" + "\n2. Entrenador"
+			opcion = pedirInt("Sobre que desea realizar una accion:" + "\n1. Director deportivo" + "\n2. Entrenador"
 					+ "\n3. Club" + "\n4. Jugador" + "\n5. Salir");
-			opcion = pedirInt("");
 			menuPrincipal(opcion, club);
 		}
 	}
@@ -85,6 +84,7 @@ public class P14_HernandezPuga_Diego {
 			menuDirector(club);
 			break;
 		case 2:
+			crearAlineacion(club);
 			break;
 		case 3:
 			menuClub(club);
@@ -99,10 +99,9 @@ public class P14_HernandezPuga_Diego {
 	}
 
 	private static void menuClub(Club club) {
-		System.out.println("Que información desea consultar: " + "\n1. Ver director deportivo " + "\n2. Ver entrenador "
+		switch (pedirInt("Que información desea consultar: " + "\n1. Ver director deportivo " + "\n2. Ver entrenador "
 				+ "\n3. Ver plantilla " + "\n4. Ver lista de los 5 maximos goleadores"
-				+ "\n5. Ver lista de los 5 jugadores con más tarjetas" + "\n6. Calcular sueldos");
-		switch (pedirInt("")) {
+				+ "\n5. Ver lista de los 5 jugadores con más tarjetas" + "\n6. Calcular sueldos")) {
 		case 1:
 			System.out.println(club.verDirector());
 			break;
@@ -113,8 +112,10 @@ public class P14_HernandezPuga_Diego {
 			System.out.println(club.verPlantilla());
 			break;
 		case 4:
+			System.out.println(club.ordenadoGoles());
 			break;
 		case 5:
+			System.out.println(club.ordenadoTarjetas());
 			break;
 		case 6:
 			System.out.println(club.calcularSueldos());
@@ -123,8 +124,7 @@ public class P14_HernandezPuga_Diego {
 	}
 
 	private static void menuJugador(Club club) {
-		System.out.println("Que acción desea realizar:\n1. Ver tarjeta\n2. Marca gol\n3.Sacar tarjeta");
-		switch (pedirInt("")) {
+		switch (pedirInt("Que acción desea realizar:\n1. Ver tarjeta\n2. Marca gol\n3.Sacar tarjeta")) {
 		case 1:
 			System.out.println("De que jugador quieres ver las tarjetas:");
 			club.verTarjetas(pedirInt(""));
@@ -141,9 +141,9 @@ public class P14_HernandezPuga_Diego {
 	}
 	
 	private static void menuDirector(Club club) {
-		System.out.println("Que acción desea realizar:\n1. Fichar jugador\n2. Vender jugador");
-		switch (pedirInt("")) {
+		switch (pedirInt("Que acción desea realizar:\n1. Fichar jugador\n2. Vender jugador")) {
 		case 1:
+			club.ficharJugador(nuevoJugador(club));
 			break;
 		case 2:
 			System.out.println("Que jugador desea vender:");
@@ -151,11 +151,37 @@ public class P14_HernandezPuga_Diego {
 			break;
 		}
 	}
+	
+	private static Jugador nuevoJugador(Club club) {
+		String nombre = pedirString("Indique su nombre:");
+		int dorsal = 0;
+		while(club.existeJugador(dorsal)) {
+			dorsal = pedirInt("Indique su dorsal:");
+		}
+		Posicion posicion = pedirPosicion();
+		return new Jugador(nombre, dorsal, posicion);
+	}
+	
+	private static Posicion pedirPosicion() {
+		System.out.println("Indique su posicion:");
+		int opcion = pedirInt("1.Portero 2.Defensa 3.Centrocampista 4.Delantero");
+		switch(opcion) {
+		case 1:
+			return Posicion.Portero;
+		case 2:
+			return Posicion.Defensa;
+		case 3:
+			return Posicion.Centrocampista;
+		case 4:
+			return Posicion.Delantero;
+		default:
+			return Posicion.Ninguna;
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Club club = inicio();
-		// crearAlineacion(club);
 		inicioMenu(club);
 
 	}
