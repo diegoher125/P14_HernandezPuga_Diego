@@ -5,16 +5,41 @@ import java.util.Scanner;
 
 public class P14_HernandezPuga_Diego {
 
+	private static int pedirInt(String texto) {
+		Scanner teclado = new Scanner(System.in);
+		int numero;
+        do {
+            System.out.println(texto);
+            while (!teclado.hasNextInt()) {
+            	teclado.next();
+    			System.out.println("Dato no valido");
+            }
+            numero = teclado.nextInt();
+        } while (numero < 0);
+        return numero;
+	}
+	
+	private static int pedirInt() {
+		Scanner teclado = new Scanner(System.in);
+		int numero;
+        do {
+            while (!teclado.hasNextInt()) {
+            	teclado.next();
+    			System.out.println("Dato no valido");
+            }
+            numero = teclado.nextInt();
+        } while (numero < 0);
+        return numero;
+	}
+	
 	private static String pedirString(String texto) {
 		Scanner teclado = new Scanner(System.in);
 		System.out.println(texto);
+		while (!teclado.hasNextLine()) {
+			teclado.next();
+			System.out.println("Dato no valido");
+		}
 		return teclado.nextLine();
-	}
-
-	private static int pedirInt(String texto) {
-		Scanner teclado = new Scanner(System.in);
-		System.out.print(texto);
-		return teclado.nextInt();
 	}
 
 	public static Club inicio() {
@@ -55,16 +80,20 @@ public class P14_HernandezPuga_Diego {
 	}
 
 	private static void crearAlineacion(Club club) {
-		while (!club.alineacion(pedirDorsales())) {
-			System.out.println("La alineacion esta mal");
+		boolean alineados = false;
+		while (!alineados) {
+			alineados = club.alineacion(pedirDorsales());
+			if(!alineados) {
+				System.out.println("La alineacion esta mal");
+			}
 		}
 	}
 
 	private static ArrayList<Integer> pedirDorsales() {
 		ArrayList<Integer> dorsales = new ArrayList<>();
 		System.out.println("Introduzca el dorsal de los 11 jugadores titulares:");
-		for (int i = 0; i < 11; i++) {
-			dorsales.add(pedirInt(""));
+		for(int i=0;i<11;i++) {
+			dorsales.add(pedirInt());
 		}
 		return dorsales;
 	}
@@ -126,16 +155,13 @@ public class P14_HernandezPuga_Diego {
 	private static void menuJugador(Club club) {
 		switch (pedirInt("Que acción desea realizar:\n1. Ver tarjeta\n2. Marca gol\n3.Sacar tarjeta")) {
 		case 1:
-			System.out.println("De que jugador quieres ver las tarjetas:");
-			club.verTarjetas(pedirInt(""));
+			club.verTarjetas(pedirInt("De que jugador quieres ver las tarjetas:"));
 			break;
 		case 2:
-			System.out.println("Que jugador ha marcado un gol:");
-			club.jugadorGol(pedirInt(""));
+			club.jugadorGol(pedirInt("Que jugador ha marcado un gol:"));
 			break;
 		case 3:
-			System.out.println("A que jugador le han sacado tarjeta:");
-			club.jugadorTarjeta(pedirInt(""));
+			club.jugadorTarjeta(pedirInt("A que jugador le han sacado tarjeta:"));
 			break;
 		}
 	}
@@ -146,8 +172,7 @@ public class P14_HernandezPuga_Diego {
 			club.ficharJugador(nuevoJugador(club));
 			break;
 		case 2:
-			System.out.println("Que jugador desea vender:");
-			club.venderJugador(pedirInt(""));
+			club.venderJugador(pedirInt("Que jugador desea vender:"));
 			break;
 		}
 	}
@@ -155,9 +180,9 @@ public class P14_HernandezPuga_Diego {
 	private static Jugador nuevoJugador(Club club) {
 		String nombre = pedirString("Indique su nombre:");
 		int dorsal = 0;
-		while(club.existeJugador(dorsal)) {
+		do {
 			dorsal = pedirInt("Indique su dorsal:");
-		}
+		}while(club.existeJugador(dorsal));
 		Posicion posicion = pedirPosicion();
 		return new Jugador(nombre, dorsal, posicion);
 	}

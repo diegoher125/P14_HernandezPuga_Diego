@@ -1,6 +1,6 @@
 package main.java.ieseuropa;
 
-public class NoJugador extends Miembro {
+public abstract class NoJugador extends Miembro {
 
 	private int numAnos;
 

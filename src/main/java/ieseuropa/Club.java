@@ -2,6 +2,7 @@ package main.java.ieseuropa;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Club {
 
@@ -9,10 +10,12 @@ public class Club {
 	private Director director;
 	private Entrenador entrenador;
 	private ArrayList<Jugador> plantilla;
+	private boolean alineados;
 
 	public Club(String nombre) {
 		this.nombre = nombre;
 		this.plantilla = new ArrayList<>();
+		this.alineados = false;
 	}
 
 	public String getNombre() {
@@ -47,6 +50,14 @@ public class Club {
 		this.plantilla = plantilla;
 	}
 
+	public boolean isAlineados() {
+		return alineados;
+	}
+
+	public void setAlineados(boolean alineados) {
+		this.alineados = alineados;
+	}
+
 	public void anyadeDirector(Director director) {
 		this.director = director;
 	}
@@ -63,43 +74,51 @@ public class Club {
 		plantilla.add(jugador);
 	}
 
-	public void venderJugador(int dorsal) {
-		plantilla.remove(plantilla.indexOf(new Jugador(dorsal)));
+	public String venderJugador(int dorsal) {
+		if (existeJugador(dorsal)) {
+			plantilla.remove(plantilla.indexOf(new Jugador(dorsal)));
+			return "Jugador vendido";
+		} else {
+			return "No existe el jugador";
+		}
 	}
-	
+
 	public boolean existeJugador(int dorsal) {
-		if(plantilla.contains(plantilla.indexOf(new Jugador(dorsal)))) {
+		if (plantilla.contains(new Jugador(dorsal))) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
-	
+
 	public String ordenadoTarjetas() {
-		Collections.sort(plantilla);
+		Collections.sort(plantilla, new OrderByTarjetas());
 		String jugadores = "";
-		for(int i=0;i<5;i++) {
+		for (int i = 0; i < 5; i++) {
 			jugadores += "\n" + plantilla.get(i).getNombre() + " con " + plantilla.get(i).getTarjetas() + " tarjetas";
 		}
 		return jugadores;
 	}
-	
+
 	public String ordenadoGoles() {
-		Collections.sort(plantilla, new OrderByTarjetas());
+		Collections.sort(plantilla);
 		String jugadores = "";
-		for(int i=0;i<5;i++) {
-			jugadores += "\n" + plantilla.get(i).getNombre() + " con " + plantilla.get(i).getTarjetas() + " goles";
+		for (int i = 0; i < 5; i++) {
+			jugadores += "\n" + plantilla.get(i).getNombre() + " con " + plantilla.get(i).getGoles() + " goles";
 		}
 		return jugadores;
 	}
-
+//
 	public boolean alineacion(ArrayList<Integer> dorsales) {
-		if (!comprobarPortero(dorsales)) {
+		if (!comprobarPortero(dorsales) || jugadorRepetido(dorsales)) {
 			return false;
 		} else {
-			for (int i = 0; i < dorsales.size(); i++) {
-				if (!plantilla.contains(new Jugador(dorsales.get(i + 1)))
-						|| !plantilla.get(plantilla.indexOf(new Jugador(dorsales.get(i + 1)))).alinear()) {
+			for (int dorsal: dorsales) {
+				if (plantilla.contains(new Jugador(dorsal))) {
+					if(!plantilla.get(plantilla.indexOf(new Jugador(dorsal))).saleAJugar()) {
+						return false;
+					}
+				}else {
 					return false;
 				}
 			}
@@ -107,54 +126,63 @@ public class Club {
 		}
 	}
 
-	private boolean comprobarPortero(ArrayList<Integer> dorsales) {
-		boolean portero = false;
-		boolean variosPorteros = false;
-		for (int i = 0; i < dorsales.size(); i++) {
-			if (plantilla.get(plantilla.indexOf(new Jugador(dorsales.get(i)))).getPosicion() == Posicion.Portero) {
-				portero = true;
-			} else if (portero) {
-				variosPorteros = true;
+	private boolean jugadorRepetido(ArrayList<Integer> dorsales) {
+		HashSet<Integer> dorsalesSet = new HashSet<>();
+		for (int dorsal : dorsales) {
+			if (dorsalesSet.contains(dorsal)) {
+				return true;
 			}
+			dorsalesSet.add(dorsal);
 		}
-		if (!portero || variosPorteros) {
-			return false;
-		} else {
+		return false;
+	}
+
+	private boolean comprobarPortero(ArrayList<Integer> dorsales) {
+		int contadorPorteros = 0;
+		for (int dorsal : dorsales) {
+	        if (plantilla.get(plantilla.indexOf(new Jugador(dorsal))).isPortero()) {
+	            contadorPorteros++;
+	        }
+	    }
+		if (contadorPorteros == 1) {
 			return true;
+		}else {
+			return false;
 		}
 	}
-	
+
 	public void jugadorGol(int dorsal) {
 		plantilla.get(plantilla.indexOf(new Jugador(dorsal))).marcarGol();
 	}
-	
+
 	public void jugadorTarjeta(int dorsal) {
 		plantilla.get(plantilla.indexOf(new Jugador(dorsal))).sacarTarjeta();
 	}
-	
+
 	public String verTarjetas(int dorsal) {
 		return "Tiene " + plantilla.get(plantilla.indexOf(new Jugador(dorsal))).getTarjetas() + " tarjetas";
 	}
-	
+
 	public String verDirector() {
 		return director.getNombre() + " es el director del club y lleva " + director.getNumAnos() + " años en el club";
 	}
-	
+
 	public String verEntrenador() {
-		return entrenador.getNombre() + " es el entrenador del club y lleva " + entrenador.getNumAnos() + " años en el club";
+		return entrenador.getNombre() + " es el entrenador del club y lleva " + entrenador.getNumAnos()
+				+ " años en el club";
 	}
-	
+
 	public String verPlantilla() {
 		String jugadores = "La plantilla esta formada por:";
-		for(Jugador jugador: plantilla) {
+		for (Jugador jugador : plantilla) {
 			jugadores += jugador.getNombre() + ",";
 		}
-		return jugadores.substring(0, (jugadores.length()-1));
+		return jugadores.substring(0, (jugadores.length() - 1));
 	}
-	
+
 	public String calcularSueldos() {
 		String sueldos = "Los sueldos son: " + director.calcularSueldo() + entrenador.calcularSueldo();
-		for(Jugador jugador: plantilla) {
+		for (Jugador jugador : plantilla) {
 			sueldos += jugador.calcularSueldo();
 		}
 		return sueldos;

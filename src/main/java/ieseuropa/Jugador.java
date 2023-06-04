@@ -89,7 +89,7 @@ public class Jugador extends Miembro implements Comparable<Jugador> {
 	}
 
 	public void sacarTarjeta() {
-		if (jugando) {
+		if(jugando) {
 			tarjetas += 1;
 			if (revisarTarjetas()) {
 				puedeJugar = false;
@@ -106,7 +106,7 @@ public class Jugador extends Miembro implements Comparable<Jugador> {
 	}
 
 	public void marcarGol() {
-		if (jugando) {
+		if(jugando) {
 			goles += 1;
 		}
 	}
@@ -156,22 +156,26 @@ public class Jugador extends Miembro implements Comparable<Jugador> {
 				+ (getSueldo() + (goles * aumentoXGol()) - (tarjetas * reduccionXTarjeta())) + "€";
 	}
 
-	private void saleAJugar() {
-		jugando = true;
-	}
-
-	public boolean alinear() {
-		if (puedeJugar) {
-			saleAJugar();
+	public boolean saleAJugar() {
+		if(puedeJugar) {
+			jugando = true;
 			return true;
-		} else {
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isPortero() {
+		if(this.posicion.equals(Posicion.Portero)) {
+			return true;
+		}else {
 			return false;
 		}
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (dorsal == ((Jugador) o).dorsal) {
+		if (this.dorsal == ((Jugador) o).getDorsal()) {
 			return true;
 		} else {
 			return false;
