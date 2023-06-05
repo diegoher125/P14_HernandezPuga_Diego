@@ -155,7 +155,7 @@ public class P14_HernandezPuga_Diego {
 	private static void menuJugador(Club club) {
 		switch (pedirInt("Que acción desea realizar:\n1. Ver tarjeta\n2. Marca gol\n3.Sacar tarjeta")) {
 		case 1:
-			club.verTarjetas(pedirInt("De que jugador quieres ver las tarjetas:"));
+			System.out.println(club.verTarjetas(pedirInt("De que jugador quieres ver las tarjetas:")));
 			break;
 		case 2:
 			club.jugadorGol(pedirInt("Que jugador ha marcado un gol:"));

@@ -89,12 +89,10 @@ public class Jugador extends Miembro implements Comparable<Jugador> {
 	}
 
 	public void sacarTarjeta() {
-		if(jugando) {
 			tarjetas += 1;
 			if (revisarTarjetas()) {
 				puedeJugar = false;
 			}
-		}
 	}
 
 	private boolean revisarTarjetas() {
@@ -106,9 +104,7 @@ public class Jugador extends Miembro implements Comparable<Jugador> {
 	}
 
 	public void marcarGol() {
-		if(jugando) {
 			goles += 1;
-		}
 	}
 
 	public float establecerSueldo() {
